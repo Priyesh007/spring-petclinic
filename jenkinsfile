@@ -36,4 +36,13 @@ pipeline {
             }
         } 
     }
+    
+    post {
+        
+        always {
+            emailext body: 'Jfrog project', subject: 'pipeline status', to: 'priyesh007srivastava@gmail.com'  
+        }
+    }
+
+
 }

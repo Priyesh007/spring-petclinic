@@ -1,31 +1,39 @@
 pipeline {
     agent any
 
-    stage {
+    stages {
         stage('build') {
-            echo 'clone code from github repo'
             
+            steps { 
+                echo 'clone code from github repo'
+            }
         } 
-    }
+    
 
-    stage {
+    
         stage('test') {
-            echo 'clone code from github repo'
-            
-        } 
-    }
 
-    stage {
+            steps {
+                echo 'clone code from github repo'
+            }
+        } 
+    
+
+    
         stage('deploy') {
-            echo 'clone code from github repo'
-            
-        } 
-    }
 
-    stage {
+            steps {
+                echo 'clone code from github repo'
+            }
+        } 
+    
+
+    
         stage('hello') {
-            echo 'clone code from github repo'
-            
+
+            steps {
+                echo 'clone code from github repo'
+            }
         } 
     }
 }

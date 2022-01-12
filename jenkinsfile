@@ -6,19 +6,7 @@ pipeline {
         jdk 'JAVA_HOME'
     }
 
-    stages {
-        stage ('Initialize') {
-            steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                    export JAVA_HOME=${JAVA_HOME}
-                '''
-            }
-        }
-    }
-
-    stages {
+        stages {
         stage('build') {
             
             steps { 

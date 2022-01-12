@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stage {
+        stage('build') {
+            echo 'clone code from github repo'
+            
+        } 
+    }
+
+    stage {
+        stage('test') {
+            echo 'clone code from github repo'
+            
+        } 
+    }
+
+    stage {
+        stage('deploy') {
+            echo 'clone code from github repo'
+            
+        } 
+    }
+
+    stage {
+        stage('hello') {
+            echo 'clone code from github repo'
+            
+        } 
+    }
+}

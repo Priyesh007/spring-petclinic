@@ -1,58 +1,55 @@
 pipeline {
-    agent any
-    tools {
-        maven 'Maven 3.3.9'
-        jdk 'jdk8'
+  environment {
+    registry = "Priyesh007/spring-petclinic"
+    registryCredential = 'docker-hub'
+    dockerImage = ''
+  }
+  agent any
+  tools {
+    maven 'Maven 3.3.9'
+    jdk 'jdk8'
+  } 
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/Priyesh007/spring-petclinic.git'
+      }
     }
-    stages {
-        stage ('Initialize') {
-            steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
-            }
-        }
-
-        stage ('Build') {
-            steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install' 
-            }
-            
-        }
-    
-        stage('test') {
-
-            steps {
-                echo 'clone code from github repo'
-            }
-        } 
-    
-
-    
-        stage('deploy') {
-
-            steps {
-                echo 'clone code from github repo'
-            }
-        } 
-    
-
-    
-        stage('hello') {
-
-            steps {
-                echo 'clone code from github repo'
-            }
-        } 
+    stage('Compile') {
+       steps {
+         sh 'mvn compile' //only compilation of the code
+       }
     }
-    
-    post {
-        
-        always {
-            emailext body: 'Jfrog project', subject: 'pipeline status', to: 'priyesh007srivastava@gmail.com'  
-        }
+    stage('Test') {
+      steps {
+        sh '''
+        mvn clean install
+        ls
+        pwd
+        ''' 
+        //if the code is compiled, we test and package it in its distributable format; run IT and store in local repository
+      }
     }
-
-
+    stage('Building Image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":latest"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+         script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:latest"
+      }
+    }
+  }
 }

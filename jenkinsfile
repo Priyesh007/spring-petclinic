@@ -8,7 +8,7 @@ pipeline {
             }       
         }       
      steps {
-         sudo sh 'mvn clean install'
+          sh 'mvn clean install'
         }
        }
        
@@ -16,7 +16,7 @@ pipeline {
        stage('Docker Build') {
          agent any
          steps {
-           sh 'docker build -t priyesh/spring-petclinic:latest .'
+           sudo sh 'docker build -t priyesh/spring-petclinic:latest .'
          }
       }
     }
